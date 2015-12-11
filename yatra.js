@@ -35,11 +35,26 @@ app.get('/tours/request-group-rate', function(req, res){
  res.render('tours/request-group-rate');
 });
 
+//info headers
+app.get('/headers', function(req,res){
+ res.set('Content-Type','text/plain');
+ var s = '';
+ for(var name in req.headers) s += name + ': ' + req.headers[name] + '\n';
+ res.send(s);
+});
+//passing a context to a view including querystring, cookie, and session values
+app.get('/greeting',function(req,res){
+	res.render('about',{
+		message: 'welcome',
+		style: req.query.style,
+		userid: req.cookie.userid,
+		username: req.session.username,
+	});
+});
 
 // custom 404 page 
 app.use(function(req, res, next){        
-   res.status(404);        
-   res.render('404');
+   res.status(404).render('404');
 });
 
 // custom 500 page 
